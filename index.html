@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <meta name="description" content="Read, listen to, and practice drum grooves at your own pace.">
+  <title>Bata · Drum practice</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./js/app.js"></script>
+</head>
+<body>
+  <header class="site-header"><a href="./" class="brand">bata<span data-i18n="app.subtitle">Drum practice</span></a><div class="header-actions"><label class="language-picker"><span class="sr-only" data-i18n="language.label">Language / Idioma</span><select id="language"><option value="en" lang="en">English</option><option value="es-AR" lang="es-AR">Español</option></select></label><button id="new-groove" class="quiet" data-i18n="action.create">+ Create groove</button></div></header>
+  <main>
+    <aside class="library" aria-label="Exercise library" data-i18n-aria="library.label">
+      <h2 data-i18n="library.exercises">Exercises</h2><p class="small">Lectura I</p>
+      <div id="exercise-list" class="exercise-list"></div>
+      <div class="custom-heading"><h2 data-i18n="library.custom">Your grooves</h2><button id="import" class="text-button" data-i18n="action.import">Import</button></div>
+      <p id="empty-custom" class="small" data-i18n="library.empty">Save your own patterns here.</p><div id="custom-list"></div>
+      <input id="import-file" type="file" accept="application/json,.json" hidden>
+      <button id="export-all" class="text-button" data-i18n="action.exportAll" hidden>Export all grooves</button>
+    </aside>
+    <div class="practice">
+      <section class="score-panel" aria-labelledby="pattern-name">
+        <div class="eyebrow"><span id="collection-label">EJERCICIOS DE LECTURA I</span><span>4/4</span></div>
+        <div class="title-row"><h1 id="pattern-name">Exercise A</h1><div class="nav-buttons"><button id="previous" aria-label="Previous exercise" data-i18n-aria="action.previous">←</button><button id="next" aria-label="Next exercise" data-i18n-aria="action.next">→</button></div></div>
+        <p id="pattern-description" class="description"></p>
+        <div id="score" class="score"></div>
+        <div class="score-key"><span data-i18n="score.hihat">× Hi-hat</span><span data-i18n="score.snare">● Snare (middle)</span><span data-i18n="score.kick">● Kick (bottom)</span><span id="bar-label">1 bar · repeats</span></div>
+      </section>
+
+      <section class="transport" aria-label="Playback controls" data-i18n-aria="transport.label">
+        <div class="transport-top"><button id="play" class="primary play">▶ Play</button><div id="beat-lights" class="beat-lights" aria-label="Beat indicator" data-i18n-aria="transport.beats"><span>1</span><span>2</span><span>3</span><span>4</span></div><span id="position" class="small">Ready</span></div>
+        <div class="tempo"><label for="bpm" data-i18n="tempo.label">Tempo</label><div class="tempo-number"><button id="slower" aria-label="Decrease tempo by 5" data-i18n-aria="tempo.slower">−</button><input id="bpm" type="number" min="30" max="240" value="80" inputmode="numeric" aria-label="Tempo in beats per minute" data-i18n-aria="tempo.input"><span data-i18n="tempo.bpm">BPM</span><button id="faster" aria-label="Increase tempo by 5" data-i18n-aria="tempo.faster">+</button></div><button id="tap" class="quiet" data-i18n="tempo.tap">Tap tempo</button><input id="tempo-slider" type="range" min="30" max="240" value="80" aria-label="Tempo slider" data-i18n-aria="tempo.slider"></div>
+        <div class="transport-options"><label><input id="metronome" type="checkbox" checked> <span data-i18n="transport.metronome">Metronome</span></label><label><input id="count-in" type="checkbox" checked> <span data-i18n="transport.countIn">Count in</span></label><label><input id="loop" type="checkbox" checked> <span data-i18n="transport.loop">Loop</span></label><label><input id="click-only" type="checkbox"> <span data-i18n="transport.clickOnly">Click only</span></label></div>
+        <p id="status" class="status" role="status">Start at 80 BPM. Keep the hi-hat even.</p>
+      </section>
+
+      <div class="utility-row"><button id="edit" class="quiet">Edit a copy</button><button id="export" class="text-button" data-i18n="action.export">Export groove</button><span class="small keyboard-tip" data-i18n="keyboard.hint">Space to play / stop</span></div>
+      <section id="editor" class="editor" aria-labelledby="editor-heading" hidden>
+        <div class="title-row"><h2 id="editor-heading" data-i18n="editor.heading">Groove editor</h2><button id="close-editor" class="text-button" data-i18n="action.close">Close</button></div>
+        <div class="editor-fields"><label><span data-i18n="editor.name">Name</span><input id="groove-name" maxlength="80" placeholder="My groove" data-i18n-placeholder="pattern.new"></label><label><span data-i18n="editor.bars">Bars</span><select id="bars"><option value="1">1</option><option value="2">2</option><option value="4">4</option></select></label><label><span data-i18n="editor.grid">Grid</span><select id="resolution"><option value="2" data-i18n="editor.eighths">Eighths</option><option value="1" data-i18n="editor.sixteenths">Sixteenths</option></select></label></div>
+        <p class="small" data-i18n="editor.help">Tap a cell: rest → hit → accent → rest. Tap an instrument name to hear it.</p>
+        <p id="grid-scroll-hint" class="small grid-scroll-hint" data-i18n="editor.scrollHint" hidden>Swipe the grid sideways to see all four beats.</p>
+        <div id="step-grid"></div>
+        <div class="editor-actions"><button id="save" class="primary" data-i18n="action.save">Save groove</button><button id="preview" class="quiet">▶ Preview</button><button id="clear" class="text-button" data-i18n="action.clear">Clear notes</button><button id="delete" class="text-button danger" data-i18n="action.delete" hidden>Delete</button></div>
+        <p class="small" data-i18n="editor.storage">Saved in this browser. Export a copy to keep a backup or move to another device.</p>
+      </section>
+
+      <details class="mixer"><summary data-i18n="mixer.heading">Sound & volume</summary><div id="mixer-controls" class="mixer-controls"></div><p class="small"><span data-i18n="mixer.credit">Drum samples from VisionPowered-AirDrums.</span> <a href="./assets/sounds/LICENSE" target="_blank" rel="noopener" data-i18n="mixer.license">MIT license</a>.</p></details>
+      <details class="source"><summary data-i18n="source.heading">Original practice sheet</summary><p class="small" data-i18n="source.description">Bombo y Tambor · 80 BPM. Each line repeats the same bar four times.</p><a href="./assets/ejercicios-de-lectura-i.pdf" target="_blank" rel="noopener" data-i18n="source.open">Open PDF ↗</a><img src="./assets/original-sheet.png" data-i18n-alt="source.alt" alt="Original Ejercicios de Lectura I sheet, with exercises A through J" loading="lazy"></details>
+      <details class="glossary"><summary data-i18n="glossary.heading">Drum terms · English / Español</summary><p class="small" data-i18n="glossary.description">Spanish terms used in Argentina. Hi-hat and groove are also commonly used in English.</p><table><thead><tr><th scope="col" lang="en" data-i18n="glossary.english">English</th><th scope="col" lang="es-AR" data-i18n="glossary.spanish">Español (Argentina)</th></tr></thead><tbody id="glossary-terms"></tbody></table></details>
+      <footer><span data-i18n="footer.message">One beat at a time.</span><span data-i18n="footer.instruments">4/4 · Kick, snare & hi-hat</span></footer>
+    </div>
+  </main>
+  <noscript>This player needs JavaScript. Este reproductor necesita JavaScript. <a href="./assets/ejercicios-de-lectura-i.pdf">PDF · Ejercicios de lectura</a></noscript>
+</body>
+</html>

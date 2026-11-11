@@ -1,0 +1,11 @@
+import {spawnSync} from 'node:child_process';
+import {mkdirSync,cpSync,rmSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+const root=fileURLToPath(new URL('../',import.meta.url));
+process.chdir(root);
+rmSync('dist',{recursive:true,force:true});
+const result=spawnSync(process.execPath,['node_modules/typescript/bin/tsc'],{stdio:'inherit'});
+if(result.status!==0)process.exit(result.status??1);
+mkdirSync('dist',{recursive:true});
+for(const path of ['index.html','style.css','assets'])cpSync(path,`dist/${path}`,{recursive:true});
+console.log('Static site built in dist/');

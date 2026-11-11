@@ -1,0 +1,20 @@
+{
+  "name": "bata",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "start": "npm run build && python3 -m http.server 8000 --directory dist --bind 0.0.0.0",
+    "test": "npm run build && node tests/practice.test.js && node tests/ui.test.js",
+    "test:ui": "npm run build && node tests/ui.test.js",
+    "test:browser": "npm run build && node scripts/browser-check.mjs"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "jsdom": "29.1.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
